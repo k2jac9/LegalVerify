@@ -64,9 +64,12 @@ const handler = NextAuth({
 });
 
 // Export GET and POST handlers with proper request handling
-export async function GET(req: Request) {
+export async function GET(request: Request) {
   try {
-    return await handler(req.nextUrl.clone());
+    // Create a new URL object from the request URL
+    const url = new URL(request.url);
+    // Pass the pathname to NextAuth
+    return await handler(request, { params: { nextauth: url.pathname.split('/').slice(4) } });
   } catch (error) {
     console.error("NextAuth GET error:", error);
     return NextResponse.json(
@@ -76,9 +79,12 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    return await handler(req.nextUrl.clone());
+    // Create a new URL object from the request URL
+    const url = new URL(request.url);
+    // Pass the pathname to NextAuth
+    return await handler(request, { params: { nextauth: url.pathname.split('/').slice(4) } });
   } catch (error) {
     console.error("NextAuth POST error:", error);
     return NextResponse.json(
