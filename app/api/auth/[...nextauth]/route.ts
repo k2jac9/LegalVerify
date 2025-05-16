@@ -2,6 +2,10 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { type NextAuthOptions } from "next-auth";
 import { type User } from "next-auth";
+import { NextResponse } from "next/server";
+
+// Force dynamic rendering to ensure request context is available
+export const dynamic = "force-dynamic";
 
 interface CustomUser extends User {
   role?: string;
@@ -67,4 +71,27 @@ export const authOptions: NextAuthOptions = {
 
 const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST };
+// Ensure proper response handling for both GET and POST requests
+export async function GET(req: Request) {
+  try {
+    return await handler(req);
+  } catch (error) {
+    console.error("NextAuth GET error:", error);
+    return NextResponse.json(
+      { error: "Authentication error occurred" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    return await handler(req);
+  } catch (error) {
+    console.error("NextAuth POST error:", error);
+    return NextResponse.json(
+      { error: "Authentication error occurred" },
+      { status: 500 }
+    );
+  }
+}
