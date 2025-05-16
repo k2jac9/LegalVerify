@@ -63,10 +63,10 @@ const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET
 });
 
-// Export GET and POST handlers with proper error handling
+// Export GET and POST handlers with proper request handling
 export async function GET(req: Request) {
   try {
-    return await handler(req);
+    return await handler(req.nextUrl.clone());
   } catch (error) {
     console.error("NextAuth GET error:", error);
     return NextResponse.json(
@@ -78,7 +78,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    return await handler(req);
+    return await handler(req.nextUrl.clone());
   } catch (error) {
     console.error("NextAuth POST error:", error);
     return NextResponse.json(
