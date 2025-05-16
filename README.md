@@ -1,6 +1,6 @@
 # LegalVerify - Trusted Records Hub
 
-https://chimerical-snickerdoodle-279176.netlify.app/dashboard/lawyer
+https://chimerical-snickerdoodle-279176.netlify.app
 
 ## ✅ Project Overview
 LegalVerify is a blockchain-powered platform that provides secure, verifiable legal reviews and Continuing Legal Education (CLE) records. Built on a multi-blockchain architecture (Aptos and Stellar), LegalVerify ensures that legal records are transparent, tamper-proof, and easily verifiable.
