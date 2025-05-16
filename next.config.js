@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Static export removed as it's incompatible with NextAuth.js
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -9,9 +8,8 @@ const nextConfig = {
     appDir: true
   },
   webpack: (config, { dev, isServer }) => {
-    if (dev && !isServer) {
-      config.cache = false;
-    }
+    // Disable webpack cache to prevent ENOENT errors
+    config.cache = false;
     return config;
   }
 };

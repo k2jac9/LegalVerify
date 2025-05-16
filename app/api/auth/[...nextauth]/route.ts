@@ -1,12 +1,13 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { User } from "next-auth";
+import { type NextAuthOptions } from "next-auth";
+import { type User } from "next-auth";
 
 interface CustomUser extends User {
   role?: string;
 }
 
-const authOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -17,7 +18,7 @@ const authOptions = {
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
-            return null;
+            throw new Error("Missing credentials");
           }
 
           // Create a serializable user object
@@ -67,10 +68,3 @@ const authOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-// Disable body parsing as NextAuth handles this
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
