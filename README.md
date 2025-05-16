@@ -30,7 +30,7 @@ LegalVerify is a blockchain-powered platform that provides secure, verifiable le
 ## ✅ Getting Started
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/k2jac9/lpf.git
+git clone https://github.com/k2jac9/LegalVerify
 cd lpf
 ```
 
@@ -106,6 +106,6 @@ Licensed under the MIT License.
 ---
 
 ## ✅ Contact
-- Twitter: [@YourTwitterHandle]
+- Twitter: [@AlejandroAIO]
 - GitHub: [@k2jac9](https://github.com/k2jac9)
-- Email: your-email@example.com
+- Email: alexcastellanos29@gmail.com
