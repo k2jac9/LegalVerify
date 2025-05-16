@@ -1,17 +1,16 @@
+import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { type NextAuthOptions } from "next-auth";
-import { type User } from "next-auth";
-import { NextResponse } from "next/server";
+import { User } from "next-auth";
 
-// Force dynamic rendering to ensure request context is available
+// Enable dynamic route handling
 export const dynamic = "force-dynamic";
 
 interface CustomUser extends User {
   role?: string;
 }
 
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -48,30 +47,23 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        return {
-          ...token,
-          role: (user as CustomUser).role,
-          email: user.email
-        };
+        token.role = (user as CustomUser).role;
+        token.email = user.email;
       }
       return token;
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          role: token.role,
-          email: token.email
-        }
-      };
+      if (session?.user) {
+        (session.user as CustomUser).role = token.role as string;
+        session.user.email = token.email as string;
+      }
+      return session;
     }
-  }
-};
+  },
+  secret: process.env.NEXTAUTH_SECRET
+});
 
-const handler = NextAuth(authOptions);
-
-// Ensure proper response handling for both GET and POST requests
+// Export GET and POST handlers with proper error handling
 export async function GET(req: Request) {
   try {
     return await handler(req);
