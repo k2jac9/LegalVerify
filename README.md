@@ -89,25 +89,4 @@ npm run start
   "recordType": 0,
   "hash": "SHA-256 hash of the review"
 }
-```
 
----
-
-## ✅ Contributing
-We welcome contributions to LegalVerify! Please follow the standard GitHub flow:
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes.
-4. Submit a pull request.
-
----
-
-## ✅ License
-Licensed under the MIT License.
-
----
-
-## ✅ Contact
-- Twitter: [@AlejandroAIO]
-- GitHub: [@k2jac9](https://github.com/k2jac9)
-- Email: alexcastellanos29@gmail.com
