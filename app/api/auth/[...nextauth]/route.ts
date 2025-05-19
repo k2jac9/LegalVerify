@@ -1,16 +1,13 @@
-import { NextResponse } from "next/server";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { User } from "next-auth";
-
-// Enable dynamic route handling
-export const dynamic = "force-dynamic";
 
 interface CustomUser extends User {
   role?: string;
 }
 
-const handler = NextAuth({
+// Define authOptions separately for better organization and reusability
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -19,24 +16,19 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        try {
-          if (!credentials?.email || !credentials?.password) {
-            throw new Error("Missing credentials");
-          }
-
-          // Create a serializable user object
-          const user: CustomUser = {
-            id: "1",
-            email: credentials.email,
-            name: "Demo User",
-            role: "lawyer"
-          };
-          
-          return user;
-        } catch (error) {
-          console.error("Authentication error:", error);
-          return null;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Missing credentials");
         }
+
+        // Create a serializable user object
+        const user: CustomUser = {
+          id: "1",
+          email: credentials.email,
+          name: "Demo User",
+          role: "lawyer"
+        };
+        
+        return user;
       }
     })
   ],
@@ -61,35 +53,8 @@ const handler = NextAuth({
     }
   },
   secret: process.env.NEXTAUTH_SECRET
-});
+};
 
-// Export GET and POST handlers with proper request handling
-export async function GET(request: Request) {
-  try {
-    // Create a new URL object from the request URL
-    const url = new URL(request.url);
-    // Pass the pathname to NextAuth
-    return await handler(request, { params: { nextauth: url.pathname.split('/').slice(4) } });
-  } catch (error) {
-    console.error("NextAuth GET error:", error);
-    return NextResponse.json(
-      { error: "Authentication error occurred" },
-      { status: 500 }
-    );
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    // Create a new URL object from the request URL
-    const url = new URL(request.url);
-    // Pass the pathname to NextAuth
-    return await handler(request, { params: { nextauth: url.pathname.split('/').slice(4) } });
-  } catch (error) {
-    console.error("NextAuth POST error:", error);
-    return NextResponse.json(
-      { error: "Authentication error occurred" },
-      { status: 500 }
-    );
-  }
-}
+// Export the handler using the new App Router pattern
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
