@@ -45,9 +45,10 @@ npm install
 - Create a `.env.local` file in the root directory.
 - Add the following environment variables:
 ```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret_key
 NEXT_PUBLIC_APTOS_NODE_URL=https://fullnode.mainnet.aptos.dev
 NEXT_PUBLIC_STELLAR_HORIZON_URL=https://horizon.stellar.org
-JWT_SECRET=your_jwt_secret_key
 ```
 
 ### 4. Start the Development Server
@@ -89,4 +90,4 @@ npm run start
   "recordType": 0,
   "hash": "SHA-256 hash of the review"
 }
-
+```
